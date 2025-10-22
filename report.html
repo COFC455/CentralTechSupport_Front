@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>تقديم بلاغ تقني - الجهاز المركزي للرقابة المالية</title>
+  
+  <!-- External CSS Libraries -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Main CSS File -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+
+    .report-page-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+      padding: 100px 0 50px;
+    }
+
+    .report-card {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 25px;
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+      border: 1px solid var(--gray-100);
+    }
+
+    .report-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+      color: white;
+      padding: 50px;
+      text-align: center;
+      position: relative;
+    }
+
+    .report-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid2" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid2)"/></svg>');
+    }
+
+    .report-header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .report-header p {
+      font-size: 1.3rem;
+      opacity: 0.95;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .report-form-container {
+      padding: 60px 50px;
+    }
+
+    .alert-info-custom {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f0f9ff 100%);
+      border: none;
+      border-radius: 15px;
+      padding: 25px 30px;
+      margin-bottom: 40px;
+      border-right: 5px solid var(--primary-color);
+      color: var(--gray-800);
+      font-size: 1.1rem;
+    }
+
+    .alert-info-custom i {
+      color: var(--primary-color);
+      margin-left: 12px;
+      font-size: 1.2rem;
+    }
+
+    .form-group {
+      margin-bottom: 30px;
+    }
+
+    .form-label {
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+    }
+
+    .form-label i {
+      margin-left: 12px;
+      color: var(--primary-color);
+      font-size: 1.3rem;
+    }
+
+    .form-control, .form-select {
+      font-size: 16px;
+      padding: 18px 25px;
+      border-radius: 15px;
+      border: 2px solid var(--gray-200);
+      transition: all 0.3s ease;
+      background: var(--white);
+      color: var(--gray-800);
+      width: 100%;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.15);
+      outline: none;
+    }
+
+    .form-control::placeholder {
+      color: var(--gray-500);
+      opacity: 0.8;
+    }
+
+    .textarea-large {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      margin-top: 50px;
+      flex-wrap: wrap;
+    }
+
+    .btn-back {
+      background: var(--gray-100);
+      border: 2px solid var(--gray-300);
+      padding: 18px 40px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: var(--gray-700);
+      text-decoration: none;
+      transition: all 0.4s ease;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .btn-back i {
+      margin-left: 10px;
+    }
+
+    .btn-back:hover {
+      background: var(--gray-200);
+      border-color: var(--gray-400);
+      color: var(--gray-800);
+      transform: translateY(-3px);
+    }
+
+    .success-container {
+      display: none;
+      text-align: center;
+      padding: 80px 50px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+    }
+
+    .success-container.active {
+      display: block;
+    }
+
+    .success-icon {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 40px;
+      box-shadow: 0 20px 50px rgba(46, 125, 50, 0.3);
+      color: white;
+      font-size: 4rem;
+      animation: successPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes successPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .success-container h2 {
+      color: var(--primary-color);
+      font-weight: 800;
+      font-size: 2.5rem;
+      margin-bottom: 25px;
+    }
+
+    .success-container p {
+      color: var(--gray-600);
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      line-height: 1.8;
+    }
+
+    .report-number-box {
+      background: var(--bg-light);
+      padding: 30px;
+      border-radius: 20px;
+      margin: 30px 0;
+      border-right: 6px solid var(--primary-color);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .report-number-box p {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .report-number-box span {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .info-note {
+      background: #fff3cd;
+      padding: 20px 25px;
+      border-radius: 15px;
+      margin-top: 25px;
+      border-right: 5px solid #ffc107;
+    }
+
+    .info-note small {
+      color: #856404;
+      font-size: 1rem;
+    }
+
+    .info-note i {
+      margin-left: 10px;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .report-form-container {
+        padding: 40px 25px;
+      }
+
+      .report-header {
+        padding: 40px 25px;
+      }
+
+      .report-header h1 {
+        font-size: 2.2rem;
+      }
+
+      .form-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn-primary-custom,
+      .btn-back {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="report-page-container">
+    <!-- Header for Report Page -->
+    <nav class="navbar navbar-expand-lg header" style="position: fixed;">
+      <div class="container">
+        <a class="navbar-brand logo-container" href="{{ route('home') }}">
+          <div class="logo-img">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <span>نظام الدعم التقني</span>
+        </a>
+        
+        <div class="ms-auto">
+          <a href="{{ route('home') }}" class="btn-back">
+            <i class="bi bi-house"></i>
+            الرئيسية
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="report-card">
+        <div class="report-header">
+          <h1><i class="bi bi-megaphone" style="margin-left: 15px;"></i>تقديم بلاغ تقني جديد</h1>
+          <p>يرجى ملء النموذج أدناه بدقة لضمان معالجة سريعة وفعالة لبلاغكم</p>
+        </div>
+        
+        <div class="report-form-container" id="formContainer">
+          <div class="alert-info-custom">
+            <i class="bi bi-info-circle"></i>
+            يرجى ملء جميع الحقول المطلوبة بدقة لضمان معالجة سريعة وفعالة لبلاغكم
+          </div>
+          
+          <form id="reportForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-person"></i>
+                    الاسم الكامل
+                  </label>
+                  <input type="text" class="form-control" required placeholder="أدخل الاسم الكامل">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-briefcase"></i>
+                    الصفة الوظيفية
+                  </label>
+                  <input type="text" class="form-control" required placeholder="أدخل الصفة الوظيفية">
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-diagram-3"></i>
+                    الجهة
+                  </label>
+                  <select class="form-select" required>
+                    <option value="">اختر الجهة</option>
+                    <option>الإدارة المركزية</option>
+                    <option>التأشير</option>
+                    <option>الاقتصادي</option>
+                    <option>الإداري</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-building"></i>
+                    القسم الذي يعمل به
+                  </label>
+                  <input type="text" class="form-control" required placeholder="أدخل اسم القسم">
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-telephone"></i>
+                    رقم الهاتف
+                  </label>
+                  <input type="tel" class="form-control" required placeholder="مثال: 0991234567">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    نوع المشكلة
+                  </label>
+                  <select class="form-select" required>
+                    <option value="">اختر نوع المشكلة</option>
+                    <option>مشاكل الشبكة والاتصال</option>
+                    <option>مشاكل الأجهزة والمعدات</option>
+                    <option>مشاكل البرمجيات </option>
+                    <option>مشاكل الطابعات والماسحات</option>
+                    <option>أخرى</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-speedometer2"></i>
+                    الأولوية
+                  </label>
+                  <select class="form-select" required>
+                    <option value="">اختر مستوى الأولوية</option>
+                    <option>عادية - يمكن الانتظار</option>
+                    <option>متوسطة - مطلوب خلال يوم عمل</option>
+                    <option>عالية - مطلوب خلال ساعات</option>
+                    <option>عاجلة - مطلوب فوراً</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="bi bi-file-text"></i>
+                    وصف المشكلة بالتفصيل
+                  </label>
+                  <textarea class="form-control textarea-large" required placeholder="يرجى وصف المشكلة بالتفصيل، متى حدثت، وما هي الخطوات التي اتخذتها لحلها..."></textarea>
+                </div>
+              </div>
+            </div>
+          </form>
+          
+          <div class="form-buttons">
+            <a href="{{ route('home') }}" class="btn-back">
+              <i class="bi bi-arrow-right"></i>
+              العودة للرئيسية
+            </a>
+            <button class="btn-primary-custom" onclick="submitReport()">
+              <i class="bi bi-send"></i>
+              تقديم البلاغ
+            </button>
+          </div>
+        </div>
+        
+        <div class="success-container" id="successContainer">
+          <div class="success-icon">
+            <i class="bi bi-check"></i>
+          </div>
+          <h2>تم تقديم البلاغ بنجاح!</h2>
+          <p>شكراً لتقديم البلاغ. تم استلام بلاغكم بنجاح وإرساله إلى رئيس القسم للمراجعة الفورية.</p>
+          <div class="report-number-box">
+            <p><strong style="color: var(--primary-color);">رقم البلاغ:</strong> <span id="reportNumber">#TS1234</span></p>
+          </div>
+          <p>سيتم التواصل معكم خلال <strong style="color: var(--primary-color);">24 ساعة</strong> على الأكثر.</p>
+          <div class="info-note">
+            <small>
+              <i class="bi bi-info-circle"></i>
+              احتفظ برقم البلاغ للمراجعة والمتابعة
+            </small>
+          </div>
+          <div class="mt-5">
+            <a href="{{ route('home') }}" class="btn-primary-custom">
+              <i class="bi bi-house"></i>
+              العودة للرئيسية
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function submitReport() {
+      // Enhanced form validation
+      const form = document.getElementById('reportForm');
+      const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+      let isValid = true;
+      
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          isValid = false;
+          input.style.borderColor = '#dc3545';
+          input.style.boxShadow = '0 0 0 0.2rem rgba(220, 53, 69, 0.25)';
+        } else {
+          input.style.borderColor = '#28a745';
+          input.style.boxShadow = '0 0 0 0.2rem rgba(40, 167, 69, 0.25)';
+        }
+      });
+      
+      if (isValid) {
+        // Generate report number
+        const reportNumber = '#TS' + (Math.floor(Math.random() * 10000) + 1000);
+        document.getElementById('reportNumber').textContent = reportNumber;
+        
+        // Hide form and show success message
+        document.getElementById('formContainer').style.display = 'none';
+        document.getElementById('successContainer').classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
